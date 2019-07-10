@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>CLinear Card</title>
+  <script type="module" src="/build/mycomponent.esm.js"></script>
+  <script nomodule src="/build/mycomponent.js"></script>
+
+
+  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+
+</head>
+<body>
+
+  <linear-card></linear-card>
+
+</body>
+
+<script type="text/javascript" charset="utf-8">
+  console.log("Je suis dans Index.html");
+  var socket = io.connect('http://127.0.0.1:8080');
+
+  console.log(socket);//3002
+  socket.on('connect', function() {
+    console.log('connected');
+    socket.emit('clientConnection', {data: 'I\'m connected!'});
+  });
+  socket.emit('fileTable');
+
+  socket.on('loadFileTable', (results) => {
+    console.log("Fichier table chargé et reçu");
+    document.getElementsByTagName('linear-card')[0].setAttribute('complete_data', results);
+  })
+</script>
+</html>
