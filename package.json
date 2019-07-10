@@ -17,7 +17,9 @@
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
   "dependencies": {
-    "fs": "0.0.1-security"
+    "bl": "^3.0.0",
+    "fs": "0.0.1-security",
+    "semver": "^6.2.0"
   },
   "devDependencies": {
     "@stencil/core": "^1.1.4",
