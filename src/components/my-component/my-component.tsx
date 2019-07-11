@@ -35,7 +35,7 @@ export class MyComponent {
   let start=this.coordGene["start"];
 
   for(var i=0; i<stepInterval; i++){
-    dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0});
+    dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0, sgrna:[]});
     start += stepInterval;
   }
   return dicInterval;
@@ -58,13 +58,14 @@ export class MyComponent {
 
   setDataHist():Array<Object>{
     let data=this.initializeInterval();
-    Object.values(this.allSgrna).forEach(listCoord => (listCoord as Array<string>).forEach(coord => {
+    Object.keys(this.allSgrna).forEach(sgrna => (this.allSgrna[sgrna] as Array<string>).forEach(coord => {
       var start = coord.match('[+-][(]([0-9]*)')[1] as unknown as number;
       var end = coord.match(',([0-9]*)[)]')[1] as unknown as number;
       if(this.checkOnGene(start, end)){
         data.forEach(interval => {
           if(this.checkOnInterval(interval["stepCoord"], start, end)){
             interval["nbSgrna"] += 1;
+            interval["sgrna"].push(sgrna);
           }
         })
       }
@@ -121,7 +122,7 @@ export class MyComponent {
           div.style("display", "block");
           div.transition()
             .duration(500)
-          div.html(`Number of sgRna : ${e["nbSgrna"]} <br/> Interval : ${e["stepCoord"]}`)
+          div.html(`Number of sgRna : ${e["nbSgrna"]} <br/> Interval : ${e["stepCoord"]} <br/> ${e["sgrna"]}`)
             .style('left', (d3.event.pageX) + 'px')
             .style('top', (d3.event.pageY) + 'px');
         })
