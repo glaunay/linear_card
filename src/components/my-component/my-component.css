@@ -1,0 +1,32 @@
+/*  Rectangle for the gene*/
+.geneBar {
+  background: rgba(79, 93, 117);
+  height: 30px;
+}
+
+/*  Histogram */
+.bar rect {
+  shape-rendering: crispEdges;
+}
+
+.bar text {
+  fill: #999999;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+/*  Tooltip for coordinates*/
+.tooltip-hist {
+    text-align: left;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}

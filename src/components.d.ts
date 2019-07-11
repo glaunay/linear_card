@@ -9,31 +9,35 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface TableCrispr {
-    'complete_data': string;
+  interface LinearCard {
+    'all_sgrna': string;
+    'gene': string;
+    'width_bar': string;
   }
 }
 
 declare global {
 
 
-  interface HTMLTableCrisprElement extends Components.TableCrispr, HTMLStencilElement {}
-  var HTMLTableCrisprElement: {
-    prototype: HTMLTableCrisprElement;
-    new (): HTMLTableCrisprElement;
+  interface HTMLLinearCardElement extends Components.LinearCard, HTMLStencilElement {}
+  var HTMLLinearCardElement: {
+    prototype: HTMLLinearCardElement;
+    new (): HTMLLinearCardElement;
   };
   interface HTMLElementTagNameMap {
-    'table-crispr': HTMLTableCrisprElement;
+    'linear-card': HTMLLinearCardElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface TableCrispr extends JSXBase.HTMLAttributes<HTMLTableCrisprElement> {
-    'complete_data'?: string;
+  interface LinearCard extends JSXBase.HTMLAttributes<HTMLLinearCardElement> {
+    'all_sgrna'?: string;
+    'gene'?: string;
+    'width_bar'?: string;
   }
 
   interface IntrinsicElements {
-    'table-crispr': TableCrispr;
+    'linear-card': LinearCard;
   }
 }
 
