@@ -12,6 +12,7 @@ export namespace Components {
   interface LinearCard {
     'all_sgrna': string;
     'gene': string;
+    'nb_step': string;
     'width_bar': string;
   }
 }
@@ -33,6 +34,7 @@ declare namespace LocalJSX {
   interface LinearCard extends JSXBase.HTMLAttributes<HTMLLinearCardElement> {
     'all_sgrna'?: string;
     'gene'?: string;
+    'nb_step'?: string;
     'width_bar'?: string;
   }
 

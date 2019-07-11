@@ -15,6 +15,7 @@ export class MyComponent {
 @Prop() all_sgrna:string;
 @Prop() gene:string;
 @Prop() width_bar:string;
+@Prop({mutable: true}) nb_step="20";
 
 @State() coordGene:{};
 @State() allSgrna:{};
@@ -29,9 +30,8 @@ export class MyComponent {
 // *************************** FUNCTIONS ***************************
   initializeInterval():Array<Object>{
   let dicInterval=[];
-  let nbStep=20;
 
-  let stepInterval = Math.ceil((this.coordGene["end"] - this.coordGene["start"])/nbStep);
+  let stepInterval = Math.ceil((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number));
   let start=this.coordGene["start"];
 
   for(var i=0; i<stepInterval; i++){
@@ -122,7 +122,7 @@ export class MyComponent {
           div.style("display", "block");
           div.transition()
             .duration(500)
-          div.html(`Number of sgRna : ${e["nbSgrna"]} <br/> Interval : ${e["stepCoord"]} <br/> ${e["sgrna"]}`)
+          div.html(`Number of sgRna : ${e["nbSgrna"]} <br/> Interval : ${e["stepCoord"]}`)
             .style('left', (d3.event.pageX) + 'px')
             .style('top', (d3.event.pageY) + 'px');
         })
@@ -130,6 +130,13 @@ export class MyComponent {
           div.transition()
             .duration(5)
             .style('display', "none");
+        })
+        .on("click", e => {
+          d3.select(this.element.shadowRoot.querySelector("#sgrnaBox")).html("<strong> Interval : </strong>" +
+                                                                             e["stepCoord"] + "<strong> Nb sgRNA : </strong>" +
+                                                                             e["nbSgrna"] + "<br/>" +
+                                                                             e["sgrna"].map(sg => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sg + "<br/>"));
+
         });
   }
 
@@ -151,9 +158,20 @@ export class MyComponent {
     let leftBorder = `${(100 - widthBarNb)/2 - 2}%`;
     let rightBorder = `${widthBarNb - ((100 - widthBarNb)/2)}%`;
     return ([
+      <div>
+        <div id="binSize">
+          Bin size : <span style={{color:"rgb(239, 71, 111)", width:"35%"}}>{Math.ceil((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number))}</span>
+        </div>
+        <div style={{float:"right", width:"35%"}}>
+          <strong> Sgrna box </strong>
+          <div id="sgrnaBox"></div>
+        </div>
+      </div>,
+
       <div id="divHist">
-      {this.displayHist()}
-    </div>,
+        {this.displayHist()}
+      </div>,
+
       <div>
         <div class="geneBar" style={{width:this.width_bar, marginLeft:leftBorderGene}}>
         </div>

@@ -15,3 +15,20 @@
     border-radius: 8px;
     pointer-events: none;
 }
+
+#binSize{
+  font-size: 1.2em;
+  float: left;
+  margin-left: 5%
+}
+
+#sgrnaBox {
+  padding-left: 5px;
+  height: 105px;
+  width: 90%;
+  overflow: scroll;
+  line-height: 1.3em;
+  border-style: inset;
+  border-width: thin;
+  border-radius: 8px;
+}
