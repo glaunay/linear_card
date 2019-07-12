@@ -181,12 +181,15 @@ export class MyComponent {
       <div id="pagination" style={{display:displayPagnigation}}>
         <a href="#" class="previous round" onClick={() => {if (this.page > 1) {this.page -= 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8249;</a>
         <a href="#" class="next round" onClick={() => {if (this.page < this.allCoordGene.length) {this.page += 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8250;</a>
+
         <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+          <strong>Holy guacamole!</strong> You have {this.allCoordGene.length} homologous gene in this section.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true" onClick={() => (this.element.shadowRoot.querySelector(".alert") as HTMLElement).style.display="none"}>&times;</span>
           </button>
-        </div>      </div>,
+        </div>
+
+      </div>,
 
       <div>
         <div id="binSize">
@@ -207,7 +210,9 @@ export class MyComponent {
         </div>
         <span style={{marginLeft: leftBorder}}> {this.coordGene["start"]} </span>
         <span style={{marginLeft: rightBorder}}> {this.coordGene["end"]} </span>
-      </div>
+      </div>,
+      // @ts-ignore
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>,
       ]);
   }
 }

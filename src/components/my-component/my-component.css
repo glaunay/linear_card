@@ -56,3 +56,8 @@ rect:hover{
 .round {
   border-radius: 50%;
 }
+
+.alert {
+  display:inline-grid;
+  margin-left: 20px;
+}
