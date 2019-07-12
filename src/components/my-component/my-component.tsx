@@ -13,7 +13,7 @@ export class MyComponent {
 
 @Prop() all_sgrna:string;
 @Prop() gene:string;
-@Prop() width_bar:string;
+@Prop({mutable:true}) width_bar="90%";
 @Prop({mutable: true}) nb_step="20";
 
 @State() allCoordGene:Array<Object>;
