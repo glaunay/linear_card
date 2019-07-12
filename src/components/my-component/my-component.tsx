@@ -31,13 +31,15 @@ export class MyComponent {
   initializeInterval():Array<Object>{
   let dicInterval=[];
 
-  let stepInterval = Math.ceil((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number));
+  let stepInterval = Math.round((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number));
   let start=this.coordGene["start"];
 
-  for(var i=0; i<stepInterval; i++){
+  for(var i=0; i<(this.nb_step as unknown as number) -1; i++){
     dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0, sgrna:[]});
     start += stepInterval;
   }
+  // the last interval can be bigger or smaller
+  dicInterval.push({stepCoord: `${start}-${this.coordGene["end"]}`, nbSgrna: 0, sgrna:[]});
   return dicInterval;
 }
 
@@ -94,7 +96,6 @@ export class MyComponent {
     var y = d3.scaleLinear()
               .range([height, 0])
               .domain([0, d3.max(this.dataHist, function(d) { return d["nbSgrna"]; })]);
-    // console.log(x(data[0]["stepCoord"]))
     // Create the svg
     var svg = d3.select(this.element.shadowRoot.querySelector("#divHist")).append("svg")
         .attr("width", this.width_bar)
