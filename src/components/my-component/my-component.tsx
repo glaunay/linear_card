@@ -11,8 +11,8 @@ export class MyComponent {
 // *************************** PROPERTY & CONSTRUCTOR ***************************
 @Element() element: HTMLElement;
 
-@Prop() all_sgrna:string;
-@Prop() gene:string;
+@Prop({mutable:true}) all_sgrna:string;
+@Prop({mutable:true}) gene:string;
 @Prop({mutable:true}) width_bar="90%";
 @Prop({mutable: true}) nb_step="20";
 
