@@ -12,7 +12,7 @@
 | `all_sgrna` | `all_sgrna` |             | `string` | `undefined` |
 | `gene`      | `gene`      |             | `string` | `undefined` |
 | `nb_step`   | `nb_step`   |             | `string` | `"20"`      |
-| `width_bar` | `width_bar` |             | `string` | `undefined` |
+| `width_bar` | `width_bar` |             | `string` | `"90%"`     |
 
 
 ----------------------------------------------
