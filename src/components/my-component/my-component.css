@@ -61,3 +61,8 @@ rect:hover{
   display:inline-grid;
   margin-left: 20px;
 }
+
+#alert-hidden{
+  transform: translate(5000px, 0px);
+  transition: transform 5s;
+}

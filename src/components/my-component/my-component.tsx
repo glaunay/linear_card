@@ -182,10 +182,10 @@ export class MyComponent {
         <a href="#" class="previous round" onClick={() => {if (this.page > 1) {this.page -= 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8249;</a>
         <a href="#" class="next round" onClick={() => {if (this.page < this.allCoordGene.length) {this.page += 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8250;</a>
 
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show" id="alert-show" role="alert">
           <strong>Holy guacamole!</strong> You have {this.allCoordGene.length} homologous gene in this section.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true" onClick={() => (this.element.shadowRoot.querySelector(".alert") as HTMLElement).style.display="none"}>&times;</span>
+            <span aria-hidden="true" onClick={() => (this.element.shadowRoot.querySelector("#alert-show") as HTMLElement).id="alert-hidden"}>&times;</span>
           </button>
         </div>
 
