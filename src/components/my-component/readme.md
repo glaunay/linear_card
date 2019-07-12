@@ -7,23 +7,13 @@
 
 ## Properties
 
-| Property        | Attribute       | Description | Type     | Default     |
-| --------------- | --------------- | ----------- | -------- | ----------- |
-| `complete_data` | `complete_data` |             | `string` | `undefined` |
+| Property    | Attribute   | Description | Type     | Default     |
+| ----------- | ----------- | ----------- | -------- | ----------- |
+| `all_sgrna` | `all_sgrna` |             | `string` | `undefined` |
+| `gene`      | `gene`      |             | `string` | `undefined` |
+| `nb_step`   | `nb_step`   |             | `string` | `"20"`      |
+| `width_bar` | `width_bar` |             | `string` | `undefined` |
 
-
-## Dependencies
-
-### Depends on
-
-- radial-crispr
-
-### Graph
-```mermaid
-graph TD;
-  table-crispr --> radial-crispr
-  style table-crispr fill:#f9f,stroke:#333,stroke-width:4px
-```
 
 ----------------------------------------------
 
