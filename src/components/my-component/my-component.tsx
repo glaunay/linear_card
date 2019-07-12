@@ -1,7 +1,6 @@
 import { Component, Prop, State, Element, h } from '@stencil/core';
 import * as d3 from "d3";
 
-
 @Component({
   tag: 'linear-card',
   styleUrl: 'my-component.css',
@@ -17,9 +16,12 @@ export class MyComponent {
 @Prop() width_bar:string;
 @Prop({mutable: true}) nb_step="20";
 
+@State() allCoordGene:Array<Object>;
 @State() coordGene:{};
 @State() allSgrna:{};
 @State() dataHist:Array<Object>;
+@State() pagniation:boolean;
+@State() page=1;
 // *************************** LISTEN & EMIT ***************************
 
 
@@ -136,20 +138,35 @@ export class MyComponent {
           d3.select(this.element.shadowRoot.querySelector("#sgrnaBox")).html("<strong> Interval : </strong>" +
                                                                              e["stepCoord"] + "<strong> Nb sgRNA : </strong>" +
                                                                              e["nbSgrna"] + "<br/>" +
-                                                                             e["sgrna"].map(sg => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sg + "<br/>"));
+                                                                             e["sgrna"].map(sg => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sg + "<br/>").join(' '));
 
         });
   }
 
+  colorPagination(maxPages) {
+    // Color arrows for pagination
+    let colorBg = (this.page == 1) ? "#f1f1f1" :  "rgba(239, 71, 111)";
+    let colorArrow = (this.page == 1) ? "black" :  "white";
+    (this.element.shadowRoot.querySelector(".previous") as HTMLElement).style.background =  colorBg;
+    (this.element.shadowRoot.querySelector(".previous") as HTMLElement).style.color =  colorArrow;
+    colorBg = (this.page == maxPages) ? "#f1f1f1" :  "rgba(239, 71, 111)";
+    colorArrow = (this.page == maxPages) ? "black" :  "white";
+    (this.element.shadowRoot.querySelector(".next") as HTMLElement).style.background =  colorBg;
+    (this.element.shadowRoot.querySelector(".next") as HTMLElement).style.color =  colorArrow;
+  }
+
   componentWillLoad(){
     // Parse data cause not given by socket
-    this.coordGene = JSON.parse(this.gene);
+    this.allCoordGene = JSON.parse(this.gene);
+    this.coordGene = this.allCoordGene[0];
+    this.pagniation = (this.allCoordGene.length > 1) ? true : false;
     this.allSgrna = JSON.parse(this.all_sgrna);
     this.dataHist = this.setDataHist();
   }
 
-  componentDidLoad() {
-    this.displayHist()
+  componentDidRender() {
+    this.displayHist();
+    this.colorPagination(this.allCoordGene.length);
   }
 
   render() {
@@ -158,7 +175,19 @@ export class MyComponent {
     let leftBorderGene = `${(100 - widthBarNb)/2}%`;
     let leftBorder = `${(100 - widthBarNb)/2 - 2}%`;
     let rightBorder = `${widthBarNb - ((100 - widthBarNb)/2)}%`;
+    let displayPagnigation = (this.pagniation) ? "block" : "none";
+
     return ([
+      <div id="pagination" style={{display:displayPagnigation}}>
+        <a href="#" class="previous round" onClick={() => {if (this.page > 1) {this.page -= 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8249;</a>
+        <a href="#" class="next round" onClick={() => {if (this.page < this.allCoordGene.length) {this.page += 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8250;</a>
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>      </div>,
+
       <div>
         <div id="binSize">
           Bin size : <span style={{color:"rgb(239, 71, 111)", width:"35%"}}>{Math.ceil((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number))}</span>
