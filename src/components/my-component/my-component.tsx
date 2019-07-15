@@ -33,9 +33,9 @@ export class MyComponent {
   initializeInterval():Array<Object>{
   let dicInterval=[];
 
-  let stepInterval = Math.round((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number));
-  let start=this.coordGene["start"];
-
+  let stepInterval = Math.round((this.coordGene["end"] - this.coordGene["start"])/parseInt(this.nb_step));
+  let start=parseInt(this.coordGene["start"]);
+  console.log(23 + start)
   for(var i=0; i<(this.nb_step as unknown as number) -1; i++){
     dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0, sgrna:[]});
     start += stepInterval;
@@ -53,7 +53,7 @@ export class MyComponent {
   }
 
   checkOnInterval(interval:string, start:number, end:number):boolean{
-    let stInt=interval.split("-")[0] as unknown as number, endInt=interval.split("-")[1] as unknown as number;
+    let stInt=parseInt(interval.split("-")[0]), endInt=parseInt(interval.split("-")[1]);
     if((start >= stInt && start <= endInt) || (end >= stInt && end <= endInt) || (stInt >= start && stInt <= end)){
       return true;
     }
@@ -83,7 +83,7 @@ export class MyComponent {
     let leftBorder = (100 - widthBarNb)/2;
     var color = "steelblue";
     var height = 200;
-
+    console.log(this.dataHist)
     d3.selectAll(this.element.shadowRoot.querySelectorAll("#divHist>svg")).remove();
     d3.selectAll(this.element.shadowRoot.querySelectorAll("#divHist>div")).remove();
     // Color scale for bin
