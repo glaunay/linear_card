@@ -15,6 +15,7 @@ export class MyComponent {
 @Prop({mutable:true}) gene:string;
 @Prop({mutable:true}) width_bar="90%";
 @Prop({mutable: true}) nb_step="20";
+@Prop({mutable: true}) width_div=screen.width.toString();
 
 @State() allCoordGene:Array<Object>;
 @State() coordGene:{};
@@ -93,7 +94,7 @@ export class MyComponent {
                 .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
     // set the ranges
     var x = d3.scaleBand()
-              .range([0, widthBarNb*screen.width/100])
+              .range([0, widthBarNb*parseFloat(this.width_div)/100])
               .domain(this.dataHist.map(function(d) { return d["stepCoord"]; }));
     var y = d3.scaleLinear()
               .range([height, 0])

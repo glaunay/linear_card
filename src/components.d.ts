@@ -14,6 +14,7 @@ export namespace Components {
     'gene': string;
     'nb_step': string;
     'width_bar': string;
+    'width_div': string;
   }
 }
 
@@ -36,6 +37,7 @@ declare namespace LocalJSX {
     'gene'?: string;
     'nb_step'?: string;
     'width_bar'?: string;
+    'width_div'?: string;
   }
 
   interface IntrinsicElements {
