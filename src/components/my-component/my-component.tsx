@@ -193,7 +193,7 @@ export class MyComponent {
         <div id="binSize">
           Bin size : <span style={{color:"rgb(239, 71, 111)", width:"35%"}}>{Math.ceil((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number))}</span>
         </div>
-        <div style={{float:"right", width:"35%"}}>
+        <div style={{float:"right", width:"45%"}}>
           <strong> Sgrna box </strong>
           <div id="sgrnaBox"></div>
         </div>
