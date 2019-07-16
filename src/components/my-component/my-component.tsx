@@ -36,7 +36,6 @@ export class MyComponent {
 
   let stepInterval = Math.round((this.coordGene["end"] - this.coordGene["start"])/parseInt(this.nb_step));
   let start=parseInt(this.coordGene["start"]);
-  console.log(23 + start)
   for(var i=0; i<(this.nb_step as unknown as number) -1; i++){
     dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0, sgrna:[]});
     start += stepInterval;
@@ -84,7 +83,6 @@ export class MyComponent {
     let leftBorder = (100 - widthBarNb)/2;
     var color = "steelblue";
     var height = 200;
-    console.log(this.dataHist)
     d3.selectAll(this.element.shadowRoot.querySelectorAll("#divHist>svg")).remove();
     d3.selectAll(this.element.shadowRoot.querySelectorAll("#divHist>div")).remove();
     // Color scale for bin
@@ -171,7 +169,6 @@ export class MyComponent {
   }
 
   render() {
-    console.log("rendr called");
     let widthBarNb = (this.width_bar.match("[0-9]*")[0] as unknown as number);
     let leftBorderGene = `${(100 - widthBarNb)/2}%`;
     let leftBorder = `${(100 - widthBarNb)/2 - 2}%`;
