@@ -2,10 +2,10 @@
 
 # Linear Representation of a gene with sgRNA distribution
 
-![example display](https://github.com/sophielem/linear_card/docs/example.png)
+![example display](https://github.com/sophielem/linear_card/blob/master/docs/example.png)
 
 ## Usage
-Pour utiliser ce composant, il est nécessaire de lui transmettre deux informations à l'aide des propriétés : **all_sgrna** et **gene**.
+Need two properties :  **all_sgrna** and **gene**. Others properties are by default but be careful concerning the property **width_div**.
 
 #### all_sgrna
 A string in JSON format, with the sgRNA as key and a list of coordinates as values. This list must match the regex :
