@@ -10,41 +10,56 @@ import * as d3 from "d3";
 export class MyComponent {
 // *************************** PROPERTY & CONSTRUCTOR ***************************
 @Element() element: HTMLElement;
-
+// list of all_sgrna in JSON format
 @Prop({mutable:true}) all_sgrna:string;
+// gene in JSON format
 @Prop({mutable:true}) gene:string;
 @Prop({mutable:true}) width_bar="90%";
 @Prop({mutable: true}) nb_step="20";
+// width to calcul hist width : width_bar(in percentage) * screen_width
 @Prop({mutable: true}) width_div=screen.width.toString();
 
+
+// Object gene : [{'start' : xx, 'end': xx}, ..]
 @State() allCoordGene:Array<Object>;
+// Coordinate of the current gene : {'start': xx, 'end': xx}
 @State() coordGene:{};
+// all_sgrna parsed
 @State() allSgrna:{};
+// data for hist : [{'stepCoord': xx-xx, 'nbSgrna': xx, 'sgrna': [string]}, ..]
 @State() dataHist:Array<Object>;
-@State() pagniation:boolean;
+// true if several genes (allCoordGene.length > 1)
+@State() pagination:boolean;
+// State of the current page
 @State() page=1;
-// *************************** LISTEN & EMIT ***************************
-
-
-
-// *************************** CLICK ***************************
-
 
 // *************************** FUNCTIONS ***************************
-  initializeInterval():Array<Object>{
-  let dicInterval=[];
+  /**
+  * create a dictionary with interval, number of sgRna and list of sgRNA
 
-  let stepInterval = Math.round((this.coordGene["end"] - this.coordGene["start"])/parseInt(this.nb_step));
-  let start=parseInt(this.coordGene["start"]);
-  for(var i=0; i<(this.nb_step as unknown as number) -1; i++){
-    dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0, sgrna:[]});
-    start += stepInterval;
-  }
-  // the last interval can be bigger or smaller
-  dicInterval.push({stepCoord: `${start}-${this.coordGene["end"]}`, nbSgrna: 0, sgrna:[]});
-  return dicInterval;
+  * @returns {Array<Object>} dicInterval
+  */
+  initializeInterval():Array<Object> {
+    let dicInterval=[];
+
+    let stepInterval = Math.round((this.coordGene["end"] - this.coordGene["start"])/parseInt(this.nb_step));
+    let start=Number(this.coordGene["start"]);
+
+    for(var i=0; i<Number(this.nb_step) -1; i++){
+      dicInterval.push({stepCoord: `${start}-${start+stepInterval}`, nbSgrna: 0, sgrna:[]});
+      start += stepInterval;
+    }
+    // the last interval can be bigger or smaller
+    dicInterval.push({stepCoord: `${start}-${this.coordGene["end"]}`, nbSgrna: 0, sgrna:[]});
+    return dicInterval;
 }
 
+  /**
+  * check if a sgRNA is on the current gene or not
+  * @param {number} start start coordinate of the sgRNA
+  * @param {number} end end coordinate of the sgRNA
+  * @returns {boolean} true or false
+  */
   checkOnGene(start:number, end:number):boolean {
     if(start >= this.coordGene["start"] && end <= this.coordGene["end"]) {
       return true;
@@ -52,6 +67,13 @@ export class MyComponent {
     return false;
   }
 
+  /**
+  * check if a sgRNA is on a given interval
+  * @param {string} interval coordinates separate by '-'
+  * @param {number} start start coordinate of the sgRNA
+  * @param {number} end end coordinate of the sgRNA
+  * @returns {boolean} true or false
+  */
   checkOnInterval(interval:string, start:number, end:number):boolean{
     let stInt=parseInt(interval.split("-")[0]), endInt=parseInt(interval.split("-")[1]);
     if((start >= stInt && start <= endInt) || (end >= stInt && end <= endInt) || (stInt >= start && stInt <= end)){
@@ -60,13 +82,20 @@ export class MyComponent {
     return false;
   }
 
+  /**
+  * Initialize a dictionary with interval and check for each sgRNA if they are on the current gene
+  * and on which interval. Then fill the interval dictionary
+  * @returns {Array<Object>}
+  */
   setDataHist():Array<Object>{
     let data=this.initializeInterval();
     Object.keys(this.allSgrna).forEach(sgrna => (this.allSgrna[sgrna] as Array<string>).forEach(coord => {
-      var start = coord.match('[+-][(]([0-9]*)')[1] as unknown as number;
-      var end = coord.match(',([0-9]*)[)]')[1] as unknown as number;
+      var start = Number(coord.match('[+-][(]([0-9]*)')[1]);
+      var end = Number(coord.match(',([0-9]*)[)]')[1]);
+      // if it's on the current gene
       if(this.checkOnGene(start, end)){
         data.forEach(interval => {
+          // Find on which interval
           if(this.checkOnInterval(interval["stepCoord"], start, end)){
             interval["nbSgrna"] += 1;
             interval["sgrna"].push(sgrna);
@@ -78,7 +107,10 @@ export class MyComponent {
   }
 
 // *************************** DISPLAY ***************************
-  displayHist(){
+  /**
+  * Display a histogram under the div #divHist
+  */
+  displayHist():void{
     let widthBarNb = (this.width_bar.match("[0-9]*")[0] as unknown as number);
     let leftBorder = (100 - widthBarNb)/2;
     var color = "steelblue";
@@ -142,7 +174,11 @@ export class MyComponent {
         });
   }
 
-  colorPagination(maxPages) {
+  /**
+  * Color pagination : need .previous and .next div
+  * @param {Number} maxPages
+  */
+  colorPagination(maxPages:number) {
     // Color arrows for pagination
     let colorBg = (this.page == 1) ? "#f1f1f1" :  "rgba(239, 71, 111)";
     let colorArrow = (this.page == 1) ? "black" :  "white";
@@ -158,7 +194,7 @@ export class MyComponent {
     // Parse data cause not given by socket
     this.allCoordGene = JSON.parse(this.gene);
     this.coordGene = this.allCoordGene[0];
-    this.pagniation = (this.allCoordGene.length > 1) ? true : false;
+    this.pagination = (this.allCoordGene.length > 1) ? true : false;
     this.allSgrna = JSON.parse(this.all_sgrna);
     this.dataHist = this.setDataHist();
   }
@@ -169,13 +205,16 @@ export class MyComponent {
   }
 
   render() {
-    let widthBarNb = (this.width_bar.match("[0-9]*")[0] as unknown as number);
+    let widthBarNb = Number(this.width_bar.match("[0-9]*")[0]);
     let leftBorderGene = `${(100 - widthBarNb)/2}%`;
     let leftBorder = `${(100 - widthBarNb)/2 - 2}%`;
     let rightBorder = `${widthBarNb - ((100 - widthBarNb)/2)}%`;
-    let displayPagnigation = (this.pagniation) ? "block" : "none";
+    let displayPagnigation = (this.pagination) ? "block" : "none";
 
     return ([
+      // ************************************
+      // *      PAGINATION AND POP-UP       *
+      // ************************************
       <div id="pagination" style={{display:displayPagnigation}}>
         <a href="#" class="previous round" onClick={() => {if (this.page > 1) {this.page -= 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8249;</a>
         <a href="#" class="next round" onClick={() => {if (this.page < this.allCoordGene.length) {this.page += 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8250;</a>
@@ -188,7 +227,9 @@ export class MyComponent {
         </div>
 
       </div>,
-
+      // ************************************
+      // *             HISTOGRAM            *
+      // ************************************
       <div>
         <div id="binSize">
           Bin size : <span style={{color:"rgb(239, 71, 111)", width:"35%"}}>{Math.ceil((this.coordGene["end"] - this.coordGene["start"])/(this.nb_step as unknown as number))}</span>
@@ -210,7 +251,7 @@ export class MyComponent {
         <span style={{marginLeft: rightBorder}}> {this.coordGene["end"]} </span>
       </div>,
       // @ts-ignore
-          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>,
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>,
       ]);
   }
 }
