@@ -2,6 +2,7 @@
 .geneBar {
   background: rgba(239, 71, 111);
   height: 30px;
+  border-radius: 35px;
 }
 
 
@@ -31,6 +32,21 @@
   border-style: inset;
   border-width: thin;
   border-radius: 8px;
+}
+
+#sgrnaBoxHeader{
+  padding: 11px;
+  background-color: white;
+  position: absolute;
+  border-bottom: 1px solid #9e9e9e99;
+}
+
+#sgrnaBoxHeader strong{
+  color:rgba(239, 71, 111);
+}
+
+#sgrnaBoxText{
+  padding: 50px 10px 10px 10px;
 }
 
 rect:hover{

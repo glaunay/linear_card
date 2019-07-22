@@ -113,7 +113,7 @@ export class MyComponent {
   displayHist():void{
     let widthBarNb = (this.width_bar.match("[0-9]*")[0] as unknown as number);
     let leftBorder = (100 - widthBarNb)/2;
-    var color = "steelblue";
+    var color = "rgba(76, 152, 187, 0.9)";
     var height = 200;
     d3.selectAll(this.element.shadowRoot.querySelectorAll("#divHist>svg")).remove();
     d3.selectAll(this.element.shadowRoot.querySelectorAll("#divHist>div")).remove();
@@ -166,10 +166,10 @@ export class MyComponent {
             .style('display', "none");
         })
         .on("click", e => {
-          d3.select(this.element.shadowRoot.querySelector("#sgrnaBox")).html("<strong> Interval : </strong>" +
-                                                                             e["stepCoord"] + "<strong> Nb sgRNA : </strong>" +
-                                                                             e["nbSgrna"] + "<br/>" +
-                                                                             e["sgrna"].map(sg => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sg + "<br/>").join(' '));
+          d3.select(this.element.shadowRoot.querySelector("#sgrnaBox")).html("<div id='sgrnaBoxHeader'><strong> Interval : </strong>" +
+                                                                             e["stepCoord"] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong> Nb sgRNA : </strong>" +
+                                                                             e["nbSgrna"] + "</div><div id='sgrnaBoxText'>" +
+                                                                             e["sgrna"].map(sg => "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + sg + "<br/>").join(' ') + "</div>");
 
         });
   }
