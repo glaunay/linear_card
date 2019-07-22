@@ -212,18 +212,28 @@ export class MyComponent {
     let displayPagnigation = (this.pagination) ? "block" : "none";
 
     return ([
+      <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+      </head>,
       // ************************************
       // *      PAGINATION AND POP-UP       *
       // ************************************
       <div id="pagination" style={{display:displayPagnigation}}>
+      <div class="arrowPagination">
         <a href="#" class="previous round" onClick={() => {if (this.page > 1) {this.page -= 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8249;</a>
         <a href="#" class="next round" onClick={() => {if (this.page < this.allCoordGene.length) {this.page += 1; this.coordGene = this.allCoordGene[this.page - 1]; this.dataHist = this.setDataHist();}}}>&#8250;</a>
-
+      </div>
         <div class="alert alert-primary alert-dismissible fade show" id="alert-show" role="alert">
           <strong>Holy guacamole!</strong> You have {this.allCoordGene.length} homologous gene in this section.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true" onClick={() => (this.element.shadowRoot.querySelector("#alert-show") as HTMLElement).id="alert-hidden"}>&times;</span>
           </button>
+        </div>
+
+        <div id="close">
+          <i class="material-icons" onClick={() => console.log(this.element.remove())}>
+              cancel
+          </i>
         </div>
 
       </div>,

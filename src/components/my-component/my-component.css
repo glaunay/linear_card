@@ -1,8 +1,9 @@
 /*  Rectangle for the gene*/
 .geneBar {
   background: rgba(239, 71, 111);
-  height: 30px;
+  height: 20px;
   border-radius: 35px;
+  margin-top: 0.5px;
 }
 
 
@@ -77,6 +78,20 @@ rect:hover{
 .alert {
   display:inline-grid;
   margin-left: 20px;
+}
+
+#close .material-icons{
+  color: rgb(239, 71, 111);
+  font-size: 2.2em;
+  cursor: pointer;
+}
+
+#close{
+  float: right;
+}
+
+.arrowPagination{
+  float: left;
 }
 
 #alert-hidden{
