@@ -209,7 +209,7 @@ export class MyComponent {
     let leftBorderGene = `${(100 - widthBarNb)/2}%`;
     let leftBorder = `${(100 - widthBarNb)/2 - 2}%`;
     let rightBorder = `${widthBarNb - ((100 - widthBarNb)/2)}%`;
-    let displayPagnigation = (this.pagination) ? "block" : "none";
+    let displayPagnigation = (this.pagination) ? "initial" : "none";
 
     return ([
       <head>
